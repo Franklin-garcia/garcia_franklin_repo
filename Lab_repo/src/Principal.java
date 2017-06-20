@@ -1,8 +1,11 @@
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -65,6 +68,9 @@ public class Principal extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_personas = new javax.swing.JTree();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -103,7 +109,7 @@ public class Principal extends javax.swing.JFrame {
         });
         menu_pop.add(jmi_modificar);
 
-        Eliminar.setText("jMenuItem5");
+        Eliminar.setText("eliminar");
         Eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EliminarActionPerformed(evt);
@@ -111,7 +117,13 @@ public class Principal extends javax.swing.JFrame {
         });
         menu_pop2.add(Eliminar);
 
-        Modificar.setText("jMenuItem5");
+        Modificar.setText("modificar");
+        Modificar.setToolTipText("");
+        Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarActionPerformed(evt);
+            }
+        });
         menu_pop2.add(Modificar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -272,6 +284,29 @@ public class Principal extends javax.swing.JFrame {
 
         tab.addTab("Ver el arbol", jPanel4);
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane3.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+
+        tab.addTab("Listar los guardados", jPanel2);
+
         jMenu3.setText("Menu principal");
 
         jMenuItem1.setText("Guardar");
@@ -288,6 +323,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setText("Cargar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem2);
 
         jMenuItem3.setText("About");
@@ -409,6 +449,7 @@ public class Principal extends javax.swing.JFrame {
         String color_pelo = JOptionPane.showInputDialog("Color de pelo");
         String descripcion = JOptionPane.showInputDialog("descripcion");
         Hijo h = new Hijo(nombre, edad, altura, sexo, color_pelo, descripcion, "hijo");
+
         DefaultMutableTreeNode nodo_hijo;
         nodo_hijo = new DefaultMutableTreeNode(h);
         nodo_padre.add(nodo_hijo);
@@ -440,8 +481,55 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
-        
+        DefaultTreeModel m = (DefaultTreeModel) jt_personas.getModel();
+        m.removeNodeFromParent(nodo_seleccionado);
+        m.reload();
     }//GEN-LAST:event_EliminarActionPerformed
+
+    private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
+        String nombre = JOptionPane.showInputDialog("Nuevo Nombre");
+        String edad = JOptionPane.showInputDialog("Nueva Edad");
+        String altura = JOptionPane.showInputDialog("Nueva altura");
+        String sexo = JOptionPane.showInputDialog("Nuevo Sexo");
+        String color_pelo = JOptionPane.showInputDialog("Nuevo Color de pelo");
+        String descripcion = JOptionPane.showInputDialog("Nueva descripcion");
+        hijo_seleccionado.setAltura(altura);
+        hijo_seleccionado.setColor_pelo(color_pelo);
+        hijo_seleccionado.setDescripcion(descripcion);
+        hijo_seleccionado.setEdad(edad);
+        hijo_seleccionado.setNombre(nombre);
+        hijo_seleccionado.setSexo(sexo); 
+    }//GEN-LAST:event_ModificarActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        File fichero = null;
+        FileReader fr = null;
+        BufferedReader br = null;        
+        try {
+            JFileChooser jfc = new JFileChooser();      
+            int seleccion = jfc.showOpenDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                fichero = jfc.getSelectedFile();
+                fr = new FileReader(fichero);
+                br = new BufferedReader(fr);
+                String linea;
+                jTextArea1.setText("");
+                while ((linea = br.readLine()) != null) {
+                    jTextArea1.append(linea);
+                    jTextArea1.append("\n");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            br.close();
+            fr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,11 +595,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JMenuItem jmi_crear_hijo;
     private javax.swing.JMenuItem jmi_eliminar;
     private javax.swing.JMenuItem jmi_modificar;
