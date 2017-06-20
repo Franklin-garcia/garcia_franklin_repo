@@ -16,7 +16,6 @@ import java.util.ArrayList;
  *
  * @author Franklin Garcia
  */
-public class AdminPersonas {
 
     public class administracionPersonas {
 
@@ -93,4 +92,4 @@ public class AdminPersonas {
             }
         }
     }
-}
+

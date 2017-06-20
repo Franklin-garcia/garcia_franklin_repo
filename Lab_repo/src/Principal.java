@@ -1,5 +1,7 @@
 
+import java.io.File;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -63,6 +65,9 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         jMenu1.setText("File");
@@ -256,7 +261,31 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.setText("Menu principal");
 
         jMenuItem1.setText("Guardar");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+        });
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem1);
+
+        jMenuItem2.setText("Cargar");
+        jMenu3.add(jMenuItem2);
+
+        jMenuItem3.setText("About");
+        jMenu3.add(jMenuItem3);
+
+        jMenuItem4.setText("Salir");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
 
         jMenuBar2.add(jMenu3);
         jMenuBar2.add(jMenu4);
@@ -329,7 +358,19 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jt_personasMouseClicked
 
     private void jmi_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modificarActionPerformed
-        // TODO add your handling code here:
+        String nombre = JOptionPane.showInputDialog("Nuevo Nombre");
+        String edad = JOptionPane.showInputDialog("Nueva Edad");
+        String altura = JOptionPane.showInputDialog("Nueva altura");
+        String sexo = JOptionPane.showInputDialog("Nuevo Sexo");
+        String color_pelo = JOptionPane.showInputDialog("Nuevo Color de pelo");
+        String descripcion = JOptionPane.showInputDialog("Nuevo descripcion");
+        padre_seleccionado.setNombre(nombre);
+        padre_seleccionado.setAltura(altura);
+        padre_seleccionado.setColor_pelo(color_pelo);
+        padre_seleccionado.setDescripcion(descripcion);
+        padre_seleccionado.setEdad(edad);
+        padre_seleccionado.setSexo(sexo);
+
     }//GEN-LAST:event_jmi_modificarActionPerformed
 
     private void jmi_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarActionPerformed
@@ -339,19 +380,38 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_eliminarActionPerformed
 
     private void jmi_crear_hijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crear_hijoActionPerformed
-        String nombre=JOptionPane.showInputDialog("Nombre");
-        String edad=JOptionPane.showInputDialog("Edad");
-        String altura=JOptionPane.showInputDialog("altura");
-        String sexo=JOptionPane.showInputDialog("Sexo");
-        String color_pelo=JOptionPane.showInputDialog("Color de pelo");
-        String descripcion=JOptionPane.showInputDialog("descripcion"); 
-        Hijo h=new Hijo(nombre,edad,altura,sexo,color_pelo,descripcion,"hijo");
+        String nombre = JOptionPane.showInputDialog("Nombre");
+        String edad = JOptionPane.showInputDialog("Edad");
+        String altura = JOptionPane.showInputDialog("altura");
+        String sexo = JOptionPane.showInputDialog("Sexo");
+        String color_pelo = JOptionPane.showInputDialog("Color de pelo");
+        String descripcion = JOptionPane.showInputDialog("descripcion");
+        Hijo h = new Hijo(nombre, edad, altura, sexo, color_pelo, descripcion, "hijo");
         DefaultMutableTreeNode nodo_hijo;
-        nodo_hijo=new DefaultMutableTreeNode(h);
+        nodo_hijo = new DefaultMutableTreeNode(h);
         nodo_padre.add(nodo_hijo);
-        
-        
     }//GEN-LAST:event_jmi_crear_hijoActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+
+    }//GEN-LAST:event_jMenuItem1MouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        File dir = null;
+        JFileChooser filechooser = new JFileChooser();
+        int seleccion = filechooser.showSaveDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            dir = filechooser.getSelectedFile();
+        }
+        administracionPersonas ah = new administracionPersonas(dir.getAbsolutePath());
+        ah.cargarArchivo();
+        ah.setPersona(padre_seleccionado); 
+        ah.escribirArchivo();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,6 +471,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
