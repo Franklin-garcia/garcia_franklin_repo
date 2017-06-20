@@ -14,20 +14,20 @@ import java.util.Scanner;
  *
  * @author Franklin Garcia
  */
-public class adminPadre {
+public class adminHijo {
 
-    private ArrayList<Padre> listapersonas = new ArrayList<>();
+    private ArrayList<Hijo> listapersonas = new ArrayList<>();
     private File archivo = null;
 
-    public adminPadre(File archivo) {
+    public adminHijo(File archivo) {
         this.archivo = archivo;
     }
 
-    public ArrayList<Padre> getListapersonas() {
+    public ArrayList<Hijo> getListapersonas() {
         return listapersonas;
     }
 
-    public void setListapersonas(ArrayList<Padre> listapersonas) {
+    public void setListapersonas(ArrayList<Hijo> listapersonas) {
         this.listapersonas = listapersonas;
     }
 
@@ -45,7 +45,7 @@ public class adminPadre {
     }
 
     //Mutador
-    public void setPersona(Padre p) {
+    public void setPersona(Hijo p) {
         this.listapersonas.add(p);
     }
 
@@ -55,7 +55,7 @@ public class adminPadre {
         try {
             fw = new FileWriter(archivo, false);
             bw = new BufferedWriter(fw);
-            for (Padre t : listapersonas) {
+            for (Hijo t : listapersonas) {
                 bw.write(t.getNombre() + ";");
                 bw.write(t.getEdad() + ";");
                 bw.write(t.getAltura() + ";");
@@ -83,7 +83,7 @@ public class adminPadre {
             sc = new Scanner(archivo);
             sc.useDelimiter(";");
             while (sc.hasNext()) {
-                String a,b,c,d,e,f,g;
+                String a, b, c, d, e, f, g;
                 a = sc.next();
                 b = sc.next();
                 c = sc.next();
@@ -93,7 +93,7 @@ public class adminPadre {
                 g = sc.next();
                 Scanner s2 = new Scanner(sc.next());
                 s2.useDelimiter(",");
-                listapersonas.add(new Padre(a,b,c,d,e,f,g));
+                listapersonas.add(new Hijo(a, b, c, d, e, f, g));
             }
         } catch (Exception ex) {
         } finally {
