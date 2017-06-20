@@ -9,7 +9,6 @@
  * @author Franklin Garcia
  */
 public class Hijo extends Persona {
-    private Padre padre;
     private String nombre;
     private String edad;
     private String altura;
@@ -20,9 +19,8 @@ public class Hijo extends Persona {
         super();
     }
 
-    public Hijo(Padre padre, String nombre, String edad, String altura, String sexo, String color_pelo, String descripcion, String tipo) {
+    public Hijo(String nombre, String edad, String altura, String sexo, String color_pelo, String descripcion, String tipo) {
         super(tipo);
-        this.padre = padre;
         this.nombre = nombre;
         this.edad = edad;
         this.altura = altura;
@@ -30,18 +28,6 @@ public class Hijo extends Persona {
         this.color_pelo = color_pelo;
         this.descripcion = descripcion;
     }
-
-  
-
-
-    public Padre getPadre() {
-        return padre;
-    }
-
-    public void setPadre(Padre padre) {
-        this.padre = padre;
-    }
-
 
     public String getNombre() {
         return nombre;

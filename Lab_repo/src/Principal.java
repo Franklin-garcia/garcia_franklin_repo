@@ -1,5 +1,6 @@
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -71,6 +72,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jmi_crear_hijo.setText("Crear hijo");
+        jmi_crear_hijo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_crear_hijoActionPerformed(evt);
+            }
+        });
         menu_pop.add(jmi_crear_hijo);
 
         jmi_eliminar.setText("eliminar");
@@ -331,6 +337,21 @@ public class Principal extends javax.swing.JFrame {
         m.removeNodeFromParent(nodo_seleccionado);
         m.reload();
     }//GEN-LAST:event_jmi_eliminarActionPerformed
+
+    private void jmi_crear_hijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crear_hijoActionPerformed
+        String nombre=JOptionPane.showInputDialog("Nombre");
+        String edad=JOptionPane.showInputDialog("Edad");
+        String altura=JOptionPane.showInputDialog("altura");
+        String sexo=JOptionPane.showInputDialog("Sexo");
+        String color_pelo=JOptionPane.showInputDialog("Color de pelo");
+        String descripcion=JOptionPane.showInputDialog("descripcion"); 
+        Hijo h=new Hijo(nombre,edad,altura,sexo,color_pelo,descripcion,"hijo");
+        DefaultMutableTreeNode nodo_hijo;
+        nodo_hijo=new DefaultMutableTreeNode(h);
+        nodo_padre.add(nodo_hijo);
+        
+        
+    }//GEN-LAST:event_jmi_crear_hijoActionPerformed
 
     /**
      * @param args the command line arguments
