@@ -40,6 +40,9 @@ public class Principal extends javax.swing.JFrame {
         jmi_crear_hijo = new javax.swing.JMenuItem();
         jmi_eliminar = new javax.swing.JMenuItem();
         jmi_modificar = new javax.swing.JMenuItem();
+        menu_pop2 = new javax.swing.JPopupMenu();
+        Eliminar = new javax.swing.JMenuItem();
+        Modificar = new javax.swing.JMenuItem();
         tab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -99,6 +102,17 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menu_pop.add(jmi_modificar);
+
+        Eliminar.setText("jMenuItem5");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+        menu_pop2.add(Eliminar);
+
+        Modificar.setText("jMenuItem5");
+        menu_pop2.add(Modificar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -334,6 +348,10 @@ public class Principal extends javax.swing.JFrame {
         Padre p = new Padre(nombre, edad, altura, sexo, color_pelo, descripcion, "Padre");
         nodo_padre = new DefaultMutableTreeNode(p);
 
+        adminPadre ap = new adminPadre(salida);
+        ap.getListapersonas().add(p);
+        ap.escribirPersonas();
+        JOptionPane.showMessageDialog(this, "Se agrego");
         raiz.add(nodo_padre);
         m.reload();
         tf_nombre.setText("");
@@ -350,9 +368,13 @@ public class Principal extends javax.swing.JFrame {
             jt_personas.setSelectionRow(row);
             Object v1 = jt_personas.getSelectionPath().getLastPathComponent();
             nodo_seleccionado = (DefaultMutableTreeNode) v1;
-            if (nodo_seleccionado.getUserObject() instanceof Persona) {
+            if (nodo_seleccionado.getUserObject() instanceof Padre) {
                 padre_seleccionado = (Padre) nodo_seleccionado.getUserObject();
                 menu_pop.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+            if (nodo_seleccionado.getUserObject() instanceof Hijo) {
+                hijo_seleccionado = (Hijo) nodo_seleccionado.getUserObject();
+                menu_pop2.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
     }//GEN-LAST:event_jt_personasMouseClicked
@@ -390,6 +412,10 @@ public class Principal extends javax.swing.JFrame {
         DefaultMutableTreeNode nodo_hijo;
         nodo_hijo = new DefaultMutableTreeNode(h);
         nodo_padre.add(nodo_hijo);
+        adminHijo ah = new adminHijo(salida);
+        ah.getListapersonas().add(h);
+        ah.escribirPersonas();
+        JOptionPane.showMessageDialog(this, "Se agrego");
     }//GEN-LAST:event_jmi_crear_hijoActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -409,9 +435,13 @@ public class Principal extends javax.swing.JFrame {
         }
         administracionPersonas ah = new administracionPersonas(dir.getAbsolutePath());
         ah.cargarArchivo();
-        ah.setPersona(padre_seleccionado); 
+        ah.setPersona(padre_seleccionado);
         ah.escribirArchivo();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        
+    }//GEN-LAST:event_EliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -456,6 +486,8 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Eliminar;
+    private javax.swing.JMenuItem Modificar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -485,6 +517,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_modificar;
     private javax.swing.JTree jt_personas;
     private javax.swing.JPopupMenu menu_pop;
+    private javax.swing.JPopupMenu menu_pop2;
     private javax.swing.JTextArea ta_descripcion;
     private javax.swing.JTabbedPane tab;
     private javax.swing.JTextField tf_altura;
@@ -493,7 +526,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField tf_nombre;
     private javax.swing.JTextField tf_sexo;
     // End of variables declaration//GEN-END:variables
-DefaultMutableTreeNode nodo_padre;
+    DefaultMutableTreeNode nodo_padre;
     DefaultMutableTreeNode nodo_seleccionado;
     Padre padre_seleccionado;
+    Hijo hijo_seleccionado;
+    File salida = new File("./personas.txt");
 }
